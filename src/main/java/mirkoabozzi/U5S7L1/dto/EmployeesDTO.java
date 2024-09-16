@@ -15,6 +15,8 @@ public record EmployeesDTO(
         @Size(min = 3, max = 20, message = "Size must be from 3 to 20 character. ")
         String surname,
         @Email(message = "Email is required. ")
-        String email
+        String email,
+        @NotNull(message = "Password is required. ")
+        String password
 ) {
 }

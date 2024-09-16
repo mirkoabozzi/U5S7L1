@@ -11,6 +11,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    // senza questa classe di configurazione il server avrà tutti i controlli di sicurezza abilitati
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.formLogin(http -> http.disable()); //disabilita schermata login accessibile in http://localhost:miaPorta

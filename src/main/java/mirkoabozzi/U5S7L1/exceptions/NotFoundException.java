@@ -6,4 +6,9 @@ public class NotFoundException extends RuntimeException {
     public NotFoundException(UUID id) {
         super("Element with id " + id + " not found");
     }
+
+    // override per sfruttare la stessa eccezione
+    public NotFoundException(String msg) {
+        super(msg);
+    }
 }

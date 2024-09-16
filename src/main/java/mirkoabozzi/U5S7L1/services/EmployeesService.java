@@ -34,7 +34,7 @@ public class EmployeesService {
     public Employee save(EmployeesDTO payload) {
         if (employeesRepository.existsByEmail(payload.email()))
             throw new BadRequestException("Email " + payload.email() + " already on DB");
-        Employee newEmployee = new Employee(payload.username(), payload.name(), payload.surname(), payload.email(), "https://ui-avatars.com/api/?name=" + payload.name() + "+" + payload.surname());
+        Employee newEmployee = new Employee(payload.username(), payload.name(), payload.surname(), payload.email(), "https://ui-avatars.com/api/?name=" + payload.name() + "+" + payload.surname(), payload.password());
 
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setFrom(javaMailSender.getUsername());
@@ -79,5 +79,10 @@ public class EmployeesService {
         String url = (String) cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url");
         employee.setAvatar(url);
         this.employeesRepository.save(employee);
+    }
+
+    //FIND BY EMAIL lo utilizzerò in authenticationService per verificare se l'email utilizzata per il login è esistente
+    public Employee findByEmail(String email) {
+        return this.employeesRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Email " + email + " not found on DB"));
     }
 }
