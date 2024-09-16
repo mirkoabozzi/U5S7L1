@@ -3,6 +3,7 @@ package mirkoabozzi.U5S7L1.security;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import mirkoabozzi.U5S7L1.entities.Employee;
+import mirkoabozzi.U5S7L1.exceptions.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -20,5 +21,13 @@ public class JWTTools {
                 .subject(String.valueOf(employee.getId())) // id del proprietario del token
                 .signWith(Keys.hmacShaKeyFor(secret.getBytes())) //firma il token utilizzando la key segreta present ein env.properties importata nella classe con il @Value
                 .compact(); // genera il token
+    }
+
+    public void verifyToken(String token) {
+        try {
+            Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes())).build().parse(token);
+        } catch (Exception ex) {
+            throw new UnauthorizedException("Invalid token");
+        }
     }
 }
