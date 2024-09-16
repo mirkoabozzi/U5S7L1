@@ -15,11 +15,11 @@ public class AuthenticationService {
     private JWTTools jwtTools;
 
     public String checkCredentialAndCreateToken(EmployeeLoginDTO payload) {
-        Employee found = this.employeesService.findByEmail(payload.email());
-        if (found.getPassword().equals(payload.password())) {
-            return this.jwtTools.generateToken(found);
+        Employee found = this.employeesService.findByEmail(payload.email());  //cerco il dipendente tramite email
+        if (found.getPassword().equals(payload.password())) { // controllo se la password inserita corrisponde a quella presente nel DB
+            return this.jwtTools.generateToken(found); // tramite il metodo dei JWTTools genero un nuovo token
         } else {
-            throw new UnauthorizedException("Incorrect credentials");
+            throw new UnauthorizedException("Incorrect credentials");  // se non passo le condizioni lancio un'eccezione
         }
     }
 }

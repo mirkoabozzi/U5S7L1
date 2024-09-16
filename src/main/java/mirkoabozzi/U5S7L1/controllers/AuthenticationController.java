@@ -24,7 +24,7 @@ public class AuthenticationController {
     private EmployeesService employeesService;
 
     //POST LOGIN
-    @PostMapping("/login") //endpoint dedicati al login
+    @PostMapping("/login") //endpoint dedicato al login
     public EmployeeLoginRespDTO login(@RequestBody @Validated EmployeeLoginDTO payload, BindingResult validation) {
         if (validation.hasErrors()) {
             String msg = validation.getAllErrors().stream().map(error -> error.getDefaultMessage()).collect(Collectors.joining());
@@ -35,7 +35,7 @@ public class AuthenticationController {
     }
 
     //POST REGISTRAZIONE
-    @PostMapping("/register")
+    @PostMapping("/register")  //endpoint dedicato alla registrazione nuovo dipendente
     @ResponseStatus(HttpStatus.CREATED)
     public Employee saveEmployee(@RequestBody @Validated EmployeesDTO payload, BindingResult validation) {
         if (validation.hasErrors()) {
@@ -45,5 +45,4 @@ public class AuthenticationController {
             return this.employeesService.save(payload);
         }
     }
-
 }

@@ -11,7 +11,7 @@ import java.util.Date;
 
 @Component
 public class JWTTools {
-    @Value("${jwt.secret}")
+    @Value("${jwt.secret}") //key segreta
     private String secret;
 
     public String generateToken(Employee employee) {
@@ -25,7 +25,7 @@ public class JWTTools {
 
     public void verifyToken(String token) {
         try {
-            Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes())).build().parse(token);
+            Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes())).build().parse(token); // controllo integrità token se non lo passo lancio l'eccezione
         } catch (Exception ex) {
             throw new UnauthorizedException("Invalid token");
         }

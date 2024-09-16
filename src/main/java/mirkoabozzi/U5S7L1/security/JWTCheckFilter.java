@@ -20,9 +20,9 @@ public class JWTCheckFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String header = request.getHeader("Authorization"); //cerchiamo nell header l'autorizzazione
-        if (header == null || header.startsWith("Bearer "))
-            throw new UnauthorizedException("Token required"); // verifico la presenza della stringa Bearer prima del token
+        String header = request.getHeader("Authorization"); //cerco nell header l'autorizzazione
+        if (header == null || !header.startsWith("Bearer ")) // verifico la presenza della stringa Bearer prima del token quindi se non ! inizia con Bearer o se è null
+            throw new UnauthorizedException("Token required"); // lancio l'eccezione se non passo le due condizioni
         String token = header.substring(7); // rimuovo i primi 7 caratteri contenenti Bearer + spazio vuoto
         jwtTools.verifyToken(token); //verifico il token col metodo creato in JWTTools
         filterChain.doFilter(request, response); // applico i filtri
@@ -30,7 +30,6 @@ public class JWTCheckFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return new AntPathMatcher().match("/authentication/**", request.getServletPath()); // escludo dal filtro i path che preferisco
+        return new AntPathMatcher().match("/authentication/**", request.getServletPath()); // escludo dal filtro i path che contengono /authentication all'interno
     }
-
 }
