@@ -23,18 +23,7 @@ public class EmployeesController {
     @Autowired
     private EmployeesService employeesService;
 
-    //POST
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    private Employee saveEmployee(@RequestBody @Validated EmployeesDTO payload, BindingResult validation) {
-        if (validation.hasErrors()) {
-            String msg = validation.getAllErrors().stream().map(error -> error.getDefaultMessage()).collect(Collectors.joining());
-            throw new BadRequestException("Payload error: " + msg);
-        } else {
-            return employeesService.save(payload);
-        }
-    }
-
+   
     //GET
     @GetMapping
     private Page<Employee> getEmployees(@RequestParam(defaultValue = "0") int page,

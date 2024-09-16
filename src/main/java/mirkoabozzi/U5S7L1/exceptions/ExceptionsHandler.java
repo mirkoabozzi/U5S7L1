@@ -43,4 +43,10 @@ public class ExceptionsHandler {
     public ErrorsDTO handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
         return new ErrorsDTO("You can't delete an element that is linked to another element! ", LocalDateTime.now());
     }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorsDTO handleUnauthorizedException(UnauthorizedException ex) {
+        return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
+    }
 }
