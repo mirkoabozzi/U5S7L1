@@ -24,7 +24,7 @@ public class TripsController {
     //POST
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    private Trip saveTrip(@RequestBody @Validated TripsDTO payload, BindingResult validation) {
+    public Trip saveTrip(@RequestBody @Validated TripsDTO payload, BindingResult validation) {
         if (validation.hasErrors()) {
             String msg = validation.getAllErrors().stream().map(error -> error.getDefaultMessage()).collect(Collectors.joining());
             throw new BadRequestException("Payload error: " + msg);
@@ -36,9 +36,9 @@ public class TripsController {
 
     //GET
     @GetMapping
-    private Page<Trip> getTrips(@RequestParam(defaultValue = "0") int page,
-                                @RequestParam(defaultValue = "10") int size,
-                                @RequestParam(defaultValue = "destination") String sortBy) {
+    public Page<Trip> getTrips(@RequestParam(defaultValue = "0") int page,
+                               @RequestParam(defaultValue = "10") int size,
+                               @RequestParam(defaultValue = "destination") String sortBy) {
         return this.tripsService.findAll(page, size, sortBy);
     }
 
@@ -50,7 +50,7 @@ public class TripsController {
 
     //PUT
     @PutMapping("/{id}")
-    private Trip update(@PathVariable UUID id, @RequestBody @Validated TripsDTO payload, BindingResult validation) {
+    public Trip update(@PathVariable UUID id, @RequestBody @Validated TripsDTO payload, BindingResult validation) {
         if (validation.hasErrors()) {
             String msg = validation.getAllErrors().stream().map(error -> error.getDefaultMessage()).collect(Collectors.joining());
             throw new BadRequestException("Payload error: " + msg);
@@ -68,7 +68,7 @@ public class TripsController {
 
     //PUT STATE TRIP
     @PutMapping("/state/{id}")
-    private Trip updateStateTrip(@PathVariable UUID id, @RequestBody @Validated TripsChangeStateDTO payload, BindingResult validation) {
+    public Trip updateStateTrip(@PathVariable UUID id, @RequestBody @Validated TripsChangeStateDTO payload, BindingResult validation) {
         if (validation.hasErrors()) {
             String msg = validation.getAllErrors().stream().map(error -> error.getDefaultMessage()).collect(Collectors.joining());
             throw new BadRequestException("Payload error: " + msg);

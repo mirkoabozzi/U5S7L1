@@ -26,7 +26,7 @@ public class EmployeesController {
    
     //GET
     @GetMapping
-    private Page<Employee> getEmployees(@RequestParam(defaultValue = "0") int page,
+    public Page<Employee> getEmployees(@RequestParam(defaultValue = "0") int page,
                                         @RequestParam(defaultValue = "10") int size,
                                         @RequestParam(defaultValue = "surname") String sortBy) {
         return this.employeesService.findAll(page, size, sortBy);
@@ -40,7 +40,7 @@ public class EmployeesController {
 
     //PUT
     @PutMapping("/{id}")
-    private Employee update(@PathVariable UUID id, @RequestBody @Validated EmployeesDTO payload, BindingResult validation) {
+    public Employee update(@PathVariable UUID id, @RequestBody @Validated EmployeesDTO payload, BindingResult validation) {
         if (validation.hasErrors()) {
             String msg = validation.getAllErrors().stream().map(error -> error.getDefaultMessage()).collect(Collectors.joining());
             throw new BadRequestException("Payload error: " + msg);

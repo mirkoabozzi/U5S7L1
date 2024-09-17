@@ -23,7 +23,7 @@ public class ReservationsController {
 
     //POST RESERVATION
     @PostMapping
-    private Reservation saveReservation(@RequestBody @Validated ReservationsDTO payload, BindingResult validation) {
+    public Reservation saveReservation(@RequestBody @Validated ReservationsDTO payload, BindingResult validation) {
         if (validation.hasErrors()) {
             String msg = validation.getAllErrors().stream().map(error -> error.getDefaultMessage()).collect(Collectors.joining(" ."));
             throw new BadRequestException("Payload error: " + msg);
@@ -34,9 +34,9 @@ public class ReservationsController {
 
     //GET
     @GetMapping
-    private Page<Reservation> getReservations(@RequestParam(defaultValue = "0") int page,
-                                              @RequestParam(defaultValue = "10") int size,
-                                              @RequestParam(defaultValue = "date") String sortBy) {
+    public Page<Reservation> getReservations(@RequestParam(defaultValue = "0") int page,
+                                             @RequestParam(defaultValue = "10") int size,
+                                             @RequestParam(defaultValue = "date") String sortBy) {
         return this.reservationsService.findAll(page, size, sortBy);
     }
 
@@ -48,7 +48,7 @@ public class ReservationsController {
 
     //PUT
     @PutMapping("/{id}")
-    private Reservation update(@PathVariable UUID id, @RequestBody @Validated ReservationsUpdateDTO payload, BindingResult validation) {
+    public Reservation update(@PathVariable UUID id, @RequestBody @Validated ReservationsUpdateDTO payload, BindingResult validation) {
         if (validation.hasErrors()) {
             String msg = validation.getAllErrors().stream().map(error -> error.getDefaultMessage()).collect(Collectors.joining());
             throw new BadRequestException("Payload Error: " + msg);
