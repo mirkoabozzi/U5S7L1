@@ -13,7 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,7 +28,7 @@ public class EmployeesService {
     @Autowired
     private Cloudinary cloudinary;
     @Autowired
-    private JavaMailSenderImpl javaMailSender;
+    private JavaMailSender javaMailSender;
 
     //POST
     public Employee save(EmployeesDTO payload) {
@@ -37,7 +37,6 @@ public class EmployeesService {
         Employee newEmployee = new Employee(payload.username(), payload.name(), payload.surname(), payload.email(), "https://ui-avatars.com/api/?name=" + payload.name() + "+" + payload.surname(), payload.password());
 
         SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setFrom(javaMailSender.getUsername());
         msg.setTo(payload.email());
         msg.setSubject("Welcome to JAVA");
         msg.setText("Hi " + payload.name() + " " + payload.surname() + " this mail was sent from JAVA, thanks for joining us!");

@@ -14,7 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -28,7 +28,7 @@ public class ReservationsService {
     @Autowired
     private TripsService tripsService;
     @Autowired
-    private JavaMailSenderImpl javaMailSender;
+    private JavaMailSender javaMailSender;
 
     //POST
     public Reservation save(ReservationsDTO payload) {
@@ -39,7 +39,6 @@ public class ReservationsService {
         Reservation reservation = new Reservation(payload.note(), employeeFound, tripFound);
 
         SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setFrom(javaMailSender.getUsername());
         msg.setTo(employeeFound.getEmail());
         msg.setSubject("Enjoy your trip!");
         msg.setText("Hi " + employeeFound.getName() + " " + employeeFound.getSurname() + " your reservation for " + tripFound.getDestination() + " on " + tripFound.getDate() + " is confirmed!");
